@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <unistd.h>
 
+#include "general.c"
+
 int main(){
     int tipo;
     int tipoTarea;
@@ -12,7 +14,7 @@ int main(){
 
     while(tipoTarea != 4) {
 
-        printf("Desea trabajar con Threads? 1 = Threads 0 = Procesos ");
+        printf("Desea trabajar con Threads? (1 = Threads 0 = Procesos) : ");
         scanf("%d", &tipo);
 
         printf("Seleccion el tipo de tarea que desea: \n    1. Accion Textual \n    2. Operación Textual  \n    3. Ejecutar Programa  \n    4. Salir\n");
@@ -20,13 +22,18 @@ int main(){
         scanf("%d", &tipoTarea);
 
         switch(tipoTarea) {
-            case 1:
+            case 1: {
+                char* consulta = leerConsulta();
+                int dificultad = leerDificultad();
+                float duracion = calcularDuracion();
                 if(tipo){
                     
                 } else {
 
                 }
                 break;
+            }
+                
             case 2:
                 if(tipo){
 
