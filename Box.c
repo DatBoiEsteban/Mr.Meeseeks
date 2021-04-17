@@ -36,10 +36,9 @@ int main(){
             }
                 
             case 2: {
-                char* exp = malloc(MAX_STRING_LENGTH * sizeof(char));
-                scanf(" %[^\n]", exp);
-                int a = eval(exp);
-                printf("%d \n",a);
+                tarea = leerConsulta();
+                eval(tarea);
+                //kinda close enough
 
                 if(tipo){
 
