@@ -34,20 +34,24 @@ int main(){
                 break;
             }
                 
-            case 2:
+            case 2: {
                 if(tipo){
 
                 } else {
                     
                 }
                 break;
-            case 3:
+            }
+                
+            case 3: {
                 if(tipo){
 
                 } else {
                     
                 }
                 break;
+            }
+                
             case 4:
                 break;
             default:
