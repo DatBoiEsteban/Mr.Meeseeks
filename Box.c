@@ -7,7 +7,8 @@ int main(){
     int tipo;
     int tipoTarea;
     char* tarea;
-    double dificultad;
+    int dificultad;
+    double duracion;
     int Box = getpid();
 
     printf("Box pid: %d\n\n\n", Box);
@@ -23,9 +24,9 @@ int main(){
 
         switch(tipoTarea) {
             case 1: {
-                char* consulta = leerConsulta();
-                int dificultad = leerDificultad();
-                float duracion = calcularDuracion();
+                tarea = leerConsulta();
+                dificultad = leerDificultad();
+                duracion = calcularDuracion();
                 if(tipo){
                     
                 } else {
@@ -35,6 +36,11 @@ int main(){
             }
                 
             case 2: {
+                char* exp = malloc(MAX_STRING_LENGTH * sizeof(char));
+                scanf(" %[^\n]", exp);
+                int a = eval(exp);
+                printf("%d \n",a);
+
                 if(tipo){
 
                 } else {
@@ -58,6 +64,8 @@ int main(){
                 printf("\nLa opción %d no existe\n\n", tipoTarea);
                 break;
         }
+
+        // agregar a bitacora
     }
     return 0;
 }

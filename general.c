@@ -1,6 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include "tinyexpr.h"
+
 
 #define MAX_STRING_LENGTH 256
 
@@ -29,4 +31,8 @@ int leerDificultad() {
 
 float calcularDuracion() {
     return ((float)generarDificultad(5, 50)) / 10;
+}
+
+double eval(char* exp) {
+    return te_interp(exp, 0);
 }
