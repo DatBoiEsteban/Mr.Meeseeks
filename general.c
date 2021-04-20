@@ -8,7 +8,7 @@
 
 char* leerConsulta() {
     char *consulta = malloc(MAX_STRING_LENGTH * sizeof(char));
-    printf("Hi I'm Mr. Meeseeks, Look at Meee.  ");
+    printf("Escribe tu deseo:  ");
     scanf(" %[^\n]s", consulta); 
     return consulta;
 }
@@ -37,3 +37,6 @@ double eval(char* exp) {
     return te_interp(exp, 0);
 }
 
+int run(char* programName, char* arg1, char* arg2) {
+    return execlp(programName, programName, arg1, arg2, NULL);
+}

@@ -37,7 +37,7 @@ int main(){
                 
             case 2: {
                 tarea = leerConsulta();
-                eval(tarea);
+                printf("%d\n",eval(tarea));
                 //kinda close enough
 
                 if(tipo){
@@ -50,7 +50,8 @@ int main(){
                 
             case 3: {
                 if(tipo){
-
+                    int a = run("ls", "-la", "/home");
+                    printf("%d\n",a);
                 } else {
                     
                 }
