@@ -34,6 +34,7 @@ float calcularDuracion() {
 }
 
 double eval(char* exp) {
+    
     return te_interp(exp, 0);
 }
 
