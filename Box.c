@@ -2,6 +2,7 @@
 #include <unistd.h>
 
 #include "general.c"
+#include "globales.c"
 
 int main(){
     int tipo;
@@ -10,14 +11,17 @@ int main(){
     int dificultad;
     double duracion;
     int Box = getpid();
+    globales glob;
 
-    printf("Box pid: %d\n\n\n", Box);
+    printf("Box pid: %d\n\n", Box);
+
+    
 
     while(tipoTarea != 4) {
 
-        printf("Desea trabajar con Threads? (1 = Threads 0 = Procesos) : ");
+        printf("Desea trabajar con Threads? (0 = Threads 1 = Procesos) : ");
         scanf("%d", &tipo);
-
+        init_sem(&glob, tipo);
         printf("Seleccion el tipo de tarea que desea: \n    1. Accion Textual \n    2. Operación Textual  \n    3. Ejecutar Programa  \n    4. Salir\n");
         printf("Ingrese su opción: ");
         scanf("%d", &tipoTarea);
@@ -37,7 +41,7 @@ int main(){
                 
             case 2: {
                 tarea = leerConsulta();
-                printf("%d\n",eval(tarea));
+                printf("%f\n",eval(tarea));
                 //kinda close enough
 
                 if(tipo){
