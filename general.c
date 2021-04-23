@@ -85,7 +85,6 @@ Execute a program.
 @return: An int regarding if it execute the program successfully(0) or not
 */
 int run(char* programName, char* arg1, char* arg2) {
-    
     return execlp(programName, programName, arg1, arg2, NULL);
 }
 
@@ -110,3 +109,20 @@ int pedirAyuda(int dificultad){
     }
 }
 
+double calcularDuracion() {
+    return 0;
+}
+
+char* readProgram() {
+    char* programa = malloc(MAX_STRING_LENGTH * sizeof(char));
+    printf("What is the program you want to run? ");
+    scanf(" %[^\n]s", programa);
+    return programa;
+}
+
+char* readArg() {
+    char* arg = malloc(MAX_STRING_LENGTH * sizeof(char));
+    printf("Insert argument: ");
+    scanf(" %[^\n]s", arg);
+    return arg;
+}

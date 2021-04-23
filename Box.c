@@ -8,7 +8,7 @@
 int main()
 {
     int tipo;
-    int tipoTarea;
+    int tipoTarea = 0;
     char *tarea;
     int dificultad;
     double duracion;
@@ -59,10 +59,13 @@ int main()
 
         case 3:
         {
+            char *programa = readProgram();
+            char *arg1 = readArg();
+            char *arg2 = readArg();
             if (tipo)
             {
-                int a = run("ls", "-la", "/home");
-                printf("%d\n", a);
+                char *as = ejecutarPrograma(programa, arg1, arg2);
+                printf(as);
             }
             else
             {

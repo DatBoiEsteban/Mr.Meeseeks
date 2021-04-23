@@ -58,23 +58,21 @@ char* realizarTarea(char* tarea, double dificultad) {
 }
 
 char* ejecutarPrograma(char *programa, char *arg1, char *arg2) {
-    
     clock_t inicio_op = clock();
     double tiempo_op;
     int fd[2];
     generatePipe(fd);
-    int pid = fork();
+    pid_t pid = fork();
     
-
     if(pid == 0) {
         int fallo = run(programa, arg1, arg2);
-
+        char* mes = malloc(sizeof(char) * 3);
         if(fallo == -1) {
-            writeToPipe(fd, "NO");
+            mes = "NO";
         } else {
-            writeToPipe(fd, "YES");
+            mes = "YES";
         }
-        
+        writeToPipe(fd, mes);
         exit(0);
 
     } else {
@@ -82,6 +80,8 @@ char* ejecutarPrograma(char *programa, char *arg1, char *arg2) {
 
         if(pid < 0) {
             //se despicho el fork
+            printf("crome");
+            exit(0);
         } else {
             // Meeseeks Box
             wait(&pid);
@@ -92,12 +92,12 @@ char* ejecutarPrograma(char *programa, char *arg1, char *arg2) {
         strcat(mensaje, "Program executed: ");
         strcat(mensaje, programa);
 
-        if(arg1 != "") {
+        if(strcmp(arg1, "")) {
             strcat(mensaje, " ");
             strcat(mensaje, arg1);
         }
 
-        if(arg2 != "") {
+        if(strcmp(arg2, "")) {
             strcat(mensaje, " ");
             strcat(mensaje, arg2);
         }
@@ -117,10 +117,10 @@ char* hacerLaMate(char* exp) {
 
     int fd[2];
     generatePipe(fd);
-    int pid = fork();
+    pid_t pid = fork();
     if(pid == 0) {
         
-        double resultado = eval(exp);
+        double resultado = hacerCalculos(exp);
         char *resulSTR = malloc(sizeof(char) * 30);
         sprintf(resulSTR,"%f.4", resultado);
         writeToPipe(fd, resulSTR);// Agregar el mensaje
@@ -131,6 +131,7 @@ char* hacerLaMate(char* exp) {
         if(pid < 0) {
             //se despicho el fork
             printf("crome");
+            exit(0);
         } else {
             // Meeseeks Box
             wait(&pid);
