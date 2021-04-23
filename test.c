@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <unistd.h>
 
 int generarDificultad(int min, int max) {
     srand(time(0));
@@ -9,7 +10,8 @@ int generarDificultad(int min, int max) {
 
 int main(int argc, char const *argv[])
 {
-    int rand = generarDificultad(0, 100);
-    printf("%d",rand);
+    int a = execlp("ls","-la",".", NULL);
+
+    printf("%d", a);
     return 0;
 }

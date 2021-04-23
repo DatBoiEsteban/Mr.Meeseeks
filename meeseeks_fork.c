@@ -67,7 +67,7 @@ char* ejecutarPrograma(char *programa, char *arg1, char *arg2) {
     if(pid == 0) {
         int fallo = run(programa, arg1, arg2);
         char* mes = malloc(sizeof(char) * 3);
-        if(fallo == -1) {
+        if(fallo < 0) {
             mes = "NO";
         } else {
             mes = "YES";
@@ -76,7 +76,7 @@ char* ejecutarPrograma(char *programa, char *arg1, char *arg2) {
         exit(0);
 
     } else {
-        char *mensaje = malloc(sizeof(char) * 512), *recibido = malloc(sizeof(char)*30), *tiempo = malloc(sizeof(char)*30);
+        char *mensaje = malloc(sizeof(char) * 512), *recibido = malloc(sizeof(char)*3), *tiempo = malloc(sizeof(char)*30);
 
         if(pid < 0) {
             //se despicho el fork
@@ -104,6 +104,7 @@ char* ejecutarPrograma(char *programa, char *arg1, char *arg2) {
 
         strcat(mensaje, ", Successful?: ");
         strcat(mensaje, recibido);
+        printf("me cago %s",recibido);
         strcat(mensaje, ", Time of execution: ");
         strcat(mensaje, tiempo);
         strcat(mensaje, "\n");
