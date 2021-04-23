@@ -37,13 +37,13 @@ Generate a random int between a range of numbers
 @param: min value of the range, max value of the range
 @return: Random int generated
 */
-int generarDificultad(int min, int max) {
+int generarRandom(int min, int max) {
     srand(time(0)); //Sets a seed based in computer time to get different numbers every time.
     return (rand() % (max - min)) + min;
 }
 
 /*
-Read the input difficulty of the user or randomly generate if unknown.
+Read the input difficulty of the user or randomly generate if unknown
 @param: void
 @return: Difficulty of the request
 */
@@ -52,38 +52,61 @@ int leerDificultad() {
     printf("Which is your request difficuty? (100 = easy breezy, 0 = impossible, -1 = I don't know yet ");
     scanf(" %d", &dificultad);
     if(dificultad == -1){
-        dificultad = generarDificultad(0, 100);
+        dificultad = generarRandom(0, 100);
     }
-    printf("Mr. Meeseeks realizara la tarea con dificultad %d\n ", dificultad);
+    printf("Mr.Meeseeks will do the request with difficulty of: %d\n ", dificultad);
     return dificultad;
 }
 
 /*
-Calculate the duration of a request randomly (from 0.5s to 5s)
-@param: void
-@return: Duration of a request
+Calculates the amount of Mr.Meeseeks that will be needed to complete the request
+
 */
-float calcularDuracion() {
-    return ((float)generarDificultad(5, 50)) / 10;
-}
+int cantMrMeeseeks(int dificultad){
 
-
-int cantMrMeeseeks(){
     return 0;
 }
 
 
 
 /*
-Calculate the duration of a request randomly (from 0.5s to 5s)
-@param: void
-@return: Duration of a request
+Solve the arithmetic operation.
+@param:  The arithmetic expression
+@return: Result of the calculation
 */
-double eval(char* exp) {
-    
+double hacerCalculos(char* exp) {
+
     return te_interp(exp, 0);
 }
 
+/*
+Execute a program.
+@param: The name of the program and it's arguments.
+@return: An int regarding if it execute the program successfully(0) or not
+*/
 int run(char* programName, char* arg1, char* arg2) {
+    
     return execlp(programName, programName, arg1, arg2, NULL);
 }
+
+
+/*
+Evaluates the probability of asking for help after trying the request
+@param: The dificulty
+@return:  
+*/
+int pedirAyuda(int dificultad){
+    
+    //float tiempoTarea = generarRandom(1,5); //Para dormir entre 1s y 5s
+
+    //El Mr. Meeseeks 'intenta' la tarea por un tiempo
+    // sleep(segundos); 
+
+    if(dificultad >= 85.01){
+        return 0; //The request is easy, no help will be needed
+    } 
+    else{
+        return 0; //Mr.Meeseeks needs help
+    }
+}
+
