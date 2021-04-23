@@ -147,6 +147,4 @@ char* hacerLaMate(char* exp) {
         strcat(mensaje, "\n");
         return mensaje; // La salida formateada para la bitacora
     }
-
-    return ""; // La salida formateada para la bitacora
 }
