@@ -4,10 +4,11 @@
 #include "general.c"
 #include "globales.c"
 
-int main(){
+int main()
+{
     int tipo;
     int tipoTarea;
-    char* tarea;
+    char *tarea;
     int dificultad;
     double duracion;
     int Box = getpid();
@@ -15,9 +16,8 @@ int main(){
 
     printf("Box pid: %d\n\n", Box);
 
-    
-
-    while(tipoTarea != 4) {
+    while (tipoTarea != 4)
+    {
 
         printf("Desea trabajar con Threads? (0 = Threads 1 = Procesos) : ");
         scanf("%d", &tipo);
@@ -26,47 +26,55 @@ int main(){
         printf("Ingrese su opción: ");
         scanf("%d", &tipoTarea);
 
-        switch(tipoTarea) {
-            case 1: {
-                tarea = leerConsulta();
-                dificultad = leerDificultad();
-                duracion = calcularDuracion();
-                if(tipo){
-                    
-                } else {
-
-                }
-                break;
+        switch (tipoTarea)
+        {
+        case 1:
+        {
+            tarea = leerConsulta();
+            dificultad = leerDificultad();
+            duracion = calcularDuracion();
+            if (tipo)
+            {
             }
-                
-            case 2: {
-                tarea = leerConsulta();
-                printf("%f\n",eval(tarea));
-                //kinda close enough
-
-                if(tipo){
-
-                } else {
-                    
-                }
-                break;
+            else
+            {
             }
-                
-            case 3: {
-                if(tipo){
-                    int a = run("ls", "-la", "/home");
-                    printf("%d\n",a);
-                } else {
-                    
-                }
-                break;
+            break;
+        }
+
+        case 2:
+        {
+            tarea = leerConsulta();
+            printf("%f\n", eval(tarea));
+            //kinda close enough
+
+            if (tipo)
+            {
             }
-                
-            case 4:
-                break;
-            default:
-                printf("\nLa opción %d no existe\n\n", tipoTarea);
-                break;
+            else
+            {
+            }
+            break;
+        }
+
+        case 3:
+        {
+            if (tipo)
+            {
+                int a = run("ls", "-la", "/home");
+                printf("%d\n", a);
+            }
+            else
+            {
+            }
+            break;
+        }
+
+        case 4:
+            break;
+        default:
+            printf("\nLa opción %d no existe\n\n", tipoTarea);
+            break;
         }
 
         // agregar a bitacora

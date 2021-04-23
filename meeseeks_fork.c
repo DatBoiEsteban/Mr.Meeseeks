@@ -5,7 +5,7 @@
 
 #include "globales.c"
 
-char* iniciar(char* tarea, double dificultad) {
+char* realizarTarea(char* tarea, double dificultad) {
     pid_t pid;
     int MeeseeksPadre;
     pid = fork();
@@ -51,4 +51,59 @@ char* iniciar(char* tarea, double dificultad) {
         tiempo_op = (double)(clock() - inicio_op) / CLOCKS_PER_SEC;
 
     }
+
+    return ""; // La salida formateada para la bitacora
+}
+
+char* ejecutarPrograma(char *programa) {
+    clock_t inicio_op = clock();
+    double tiempo_op;
+
+    int fd[2];
+    generatePipe(fd);
+
+    int pid = fork();
+    if(pid == 0) {
+        // aja lo de correr esta mica
+    } else {
+        if(pid < 0) {
+            //se despicho el fork
+
+            writeToPipe(fd, "");// Agregar el mensaje
+        } else {
+            // Meeseeks Box
+            wait(pid);
+            tiempo_op = (double)(clock() - inicio_op) / CLOCKS_PER_SEC;
+
+            readFromPipe(fd, ""); // Agregar donde recibir el mensaje
+        }
+    }
+
+    return ""; // La salida formateada para la bitacora
+}
+
+char* hacerLaMate(char* exp) {
+    clock_t inicio_op = clock();
+    double tiempo_op;
+
+    int fd[2];
+    generatePipe(fd);
+    int pid = fork();
+    if(pid == 0) {
+        // aja lo de correr esta mica
+    } else {
+        if(pid < 0) {
+            //se despicho el fork
+
+            writeToPipe(fd, "");// Agregar el mensaje
+        } else {
+            // Meeseeks Box
+            wait(pid);
+            tiempo_op = (double)(clock() - inicio_op) / CLOCKS_PER_SEC;
+
+            readFromPipe(fd, ""); // Agregar donde recibir el mensaje
+        }
+    }
+
+    return ""; // La salida formateada para la bitacora
 }
