@@ -65,11 +65,12 @@ char* ejecutarPrograma(char *programa) {
     int pid = fork();
     if(pid == 0) {
         // aja lo de correr esta mica
+        writeToPipe(fd, "");// Agregar el mensaje
     } else {
         if(pid < 0) {
             //se despicho el fork
 
-            writeToPipe(fd, "");// Agregar el mensaje
+
         } else {
             // Meeseeks Box
             wait(pid);
@@ -91,11 +92,11 @@ char* hacerLaMate(char* exp) {
     int pid = fork();
     if(pid == 0) {
         // aja lo de correr esta mica
+        writeToPipe(fd, "");// Agregar el mensaje
     } else {
         if(pid < 0) {
             //se despicho el fork
 
-            writeToPipe(fd, "");// Agregar el mensaje
         } else {
             // Meeseeks Box
             wait(pid);
