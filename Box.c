@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <unistd.h>
 
-#include "general.c"
-#include "globales.c"
+//#include "general.c"
+//#include "globales.c"
+#include "meeseeks_fork.c"
 
 int main()
 {
@@ -45,11 +46,10 @@ int main()
         case 2:
         {
             tarea = leerConsulta();
-            printf("%f\n", eval(tarea));
-            //kinda close enough
-
-            if (tipo)
+            if (tipo == 1)
             {
+                char *as = hacerLaMate(tarea);
+                printf(as);
             }
             else
             {
