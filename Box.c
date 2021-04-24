@@ -10,10 +10,8 @@ int main()
     int tipo;
     int tipoTarea = 0;
     char *tarea;
-    int dificultad;
-    double duracion;
+    double dificultad;
     int Box = getpid();
-    globales glob;
 
     printf("Box pid: %d\n", Box);
 
@@ -22,7 +20,6 @@ int main()
 
         printf("Desea trabajar con Threads? (0 = Threads 1 = Procesos) : ");
         scanf("%d", &tipo);
-        init_sem(&glob, tipo);
         printf("Seleccion el tipo de tarea que desea: \n    1. Accion Textual \n    2. Operación Textual  \n    3. Ejecutar Programa  \n    4. Salir\n");
         printf("Ingrese su opción: ");
         scanf("%d", &tipoTarea);
@@ -33,9 +30,10 @@ int main()
         {
             tarea = leerConsulta();
             dificultad = leerDificultad();
-            duracion = calcularDuracion();
             if (tipo)
             {
+                char *as = realizarTarea(tarea, dificultad);
+                printf(as);
             }
             else
             {

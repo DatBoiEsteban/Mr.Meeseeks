@@ -53,7 +53,7 @@ Gets the current state of the semaphore
 @return: value of the state (0 or 1)
 */
 int obtenerValorSemaforo(sem_t* semaforo) {
-    int valorSem;
+    int valorSem = 0;
     sem_getvalue(semaforo, valorSem);
     return valorSem;
 }

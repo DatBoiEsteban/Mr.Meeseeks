@@ -67,10 +67,10 @@ Solve the arithmetic operation.
 @param:  The arithmetic expression
 @return: Result of the calculation
 */
-//double hacerCalculos(char* exp) {
+double hacerCalculos(char* exp) {
 
-  //  return te_interp(exp, 0);
-//}
+    return te_interp(exp, 0);
+}
 
 /*
 Execute a program.
