@@ -84,14 +84,8 @@ Execute a program.
 @param: The name of the program and it's arguments.
 @return: An int regarding if it execute the program successfully(0) or not
 */
-int run(char* programName, char* arg1, char* arg2) {
-    char * m=malloc(sizeof(char) * 50);
-    strcat(m, programName);
-    strcat(m, " ");
-    strcat(m, arg1);
-    strcat(m, " ");
-    strcat(m, arg2);
-    return system(m);
+int run(char* program) {
+    return system(program);
 }
 
 

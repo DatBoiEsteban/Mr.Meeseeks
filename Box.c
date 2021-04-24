@@ -60,11 +60,9 @@ int main()
         case 3:
         {
             char *programa = readProgram();
-            char *arg1 = readArg();
-            char *arg2 = readArg();
             if (tipo)
             {
-                char *as = ejecutarPrograma(programa, arg1, arg2);
+                char *as = ejecutarPrograma(programa);
                 printf(as);
             }
             else

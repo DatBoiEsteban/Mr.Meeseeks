@@ -57,7 +57,7 @@ char* realizarTarea(char* tarea, double dificultad) {
     return ""; // La salida formateada para la bitacora
 }
 
-char* ejecutarPrograma(char *programa, char *arg1, char *arg2) {
+char* ejecutarPrograma(char *programa) {
     clock_t inicio_op = clock();
     double tiempo_op;
     int fd[2];
@@ -65,16 +65,14 @@ char* ejecutarPrograma(char *programa, char *arg1, char *arg2) {
     pid_t pid = fork();
 
     if(pid == 0) {
-        int fallo = run(programa, arg1, arg2);
+        int fallo = run(programa);
 
         // int fallo = system(programa);
         char *mes = malloc(sizeof(char) * 5);
-        if(fallo == NULL) {
-            mes = "NO";
-            // strcpy(mes, "NO");
-        } else {
+        if(fallo == 0) {
             mes = "YES";
-            // strcpy(mes, "YES");
+        } else {
+            mes = "NO";
         }
         writeToPipe(fd, mes);
         exit(0);
@@ -95,17 +93,6 @@ char* ejecutarPrograma(char *programa, char *arg1, char *arg2) {
         }
         strcat(mensaje, "Program executed: ");
         strcat(mensaje, programa);
-
-        if(strcmp(arg1, "")) {
-            strcat(mensaje, " ");
-            strcat(mensaje, arg1);
-        }
-
-        if(strcmp(arg2, "")) {
-            strcat(mensaje, " ");
-            strcat(mensaje, arg2);
-        }
-
         strcat(mensaje, ", Successful?: ");
         strcat(mensaje, recibido);
         strcat(mensaje, ", Time of execution: ");
