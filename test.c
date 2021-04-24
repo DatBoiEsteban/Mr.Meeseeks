@@ -8,25 +8,24 @@
 int main(int argc, char const *argv[])
 {
     int cantHijos = 1;
-    float dificultad = 30.0;
+    double dificultad = 1;
     int interaciones = 0;
     int tareaCompleta = 1;
 
-    printf("Si funciona");
-
+    printf("Si funciona\n");
+    tareaCompleta = intentarTarea(dificultad, cantHijos);
+    
     while(tareaCompleta != 0){
-        
-        int ayudaMeeseek = intentarTarea(dificultad, cantHijos);
-      
-        cantHijos += ayudaMeeseek;
+        cantHijos += tareaCompleta;
 
         dificultad = diluirDificultad(dificultad, cantHijos);
 
         interaciones++;
-
-        tareaCompleta = ayudaMeeseek;
-
-        printf("CantHijos: %d, Dificultad: %f, iteraciones: %d",cantHijos, dificultad, interaciones);
+        
+        tareaCompleta = intentarTarea(dificultad, cantHijos);
+        // printf("CantHijos: %d, Dificultad: %f, iteraciones: %d\n",cantHijos, dificultad, interaciones);
+        
     }
-   return 0; 
+    printf("CantHijos: %d, Dificultad: %f, iteraciones: %d\n",cantHijos, dificultad, interaciones);
+    return 0; 
 }

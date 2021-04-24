@@ -39,6 +39,9 @@ Generate a random int between a range of numbers
 */
 int generarRandom(int min, int max) {
     srand(time(0)); //Sets a seed based in computer time to get different numbers every time.
+    if(min == max) {
+        return min;
+    }
     return (rand() % (max - min)) + min;
 }
 
@@ -92,13 +95,13 @@ char* readArg() {
 }
 
 
-float probabilidadCompletarTarea(int dificultad, int cantHijos){
+double probabilidadCompletarTarea(double dificultad, int cantHijos){
     return dificultad*(cantHijos/100);
 }
 
 /*
 */
-int diluirDificultad(int dificultad, int cantHijos){
+double diluirDificultad(double dificultad, int cantHijos){
     if(dificultad == 0){
         return dificultad;
     } else{
@@ -106,7 +109,7 @@ int diluirDificultad(int dificultad, int cantHijos){
         double reduc = temp * (dificultad / generarRandom(350,550)); //Se reduce a una milesima dictada por la dificultad
         double extra = (reduc * (cantHijos));
 
-        return dificultad + reduc + extra;
+        return dificultad + reduc;
     }
 } 
 
@@ -114,12 +117,12 @@ int diluirDificultad(int dificultad, int cantHijos){
 /*
 Calculates the amount of Mr.Meeseeks that will be needed to complete the request
 */
-int cantMrMeeseeks(int dificultad){
+int cantMrMeeseeks(double dificultad){
 
-     if (dificultad >= 0 & dificultad <= 45){
+    if ((dificultad >= 0) && (dificultad <= 45)){
         return generarRandom(3, 20); 
         
-    }else if(dificultad > 45 & dificultad <= 85){
+    }else if((dificultad > 45) && (dificultad <= 85)){
         return generarRandom(1, 2);
 
     }else{
@@ -133,20 +136,20 @@ Evaluates the probability of asking for help after trying the request
 @param: The dificulty
 @return:  
 */
-int intentarTarea(int dificultad, int cantHijos){
+int intentarTarea(double dificultad, int cantHijos){
     
     int tiempoTarea = generarRandom(1,5); //Virtualize the execution time of the request
 
-    sleep(tiempoTarea); //Mr.Meeseek is performing the request
+    //sleep(tiempoTarea); //Mr.Meeseek is performing the request
 
     if(dificultad >= 86){
         return 0; //The request is easy, no help will be needed
     } 
     else{
 
-        float probCompletado;
-        probCompletado = probabilidadCompletarTarea(dificultad, cantHijos);
+        double probCompletado = probabilidadCompletarTarea(dificultad, cantHijos);
         if (probCompletado > 85.01){
+            printf("prob\n");
             return 0;
         }
         else{
