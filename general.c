@@ -64,7 +64,16 @@ Calculates the amount of Mr.Meeseeks that will be needed to complete the request
 */
 int cantMrMeeseeks(int dificultad){
 
-    return 0;
+     if (dificultad >= 0 & dificultad <= 45){
+        return generarRandom(3, ); 
+        
+    }else if(dificultad > 45 & dificultad <= 85){
+        //Crea entre uno y dos Meeseeks
+        return generarRandom(1, 2);
+
+    }else{
+        return 0;
+    }
 }
 
 
@@ -96,22 +105,18 @@ Evaluates the probability of asking for help after trying the request
 */
 int pedirAyuda(int dificultad){
     
-    //float tiempoTarea = generarRandom(1,5); //Para dormir entre 1s y 5s
+    int tiempoTarea = generarRandom(1,5); //Virtualize the execution time of the request
 
-    //El Mr. Meeseeks 'intenta' la tarea por un tiempo
-    // sleep(segundos); 
+    sleep(tiempoTarea); //Mr.Meeseek is performing the request
 
-    if(dificultad >= 85.01){
+    if(dificultad >= 86){
         return 0; //The request is easy, no help will be needed
     } 
     else{
-        return 0; //Mr.Meeseeks needs help
+        return getCantHijos(dificultad); //Mr.Meeseeks needs help
     }
 }
 
-double calcularDuracion() {
-    return 0;
-}
 
 char* readProgram() {
     char* programa = malloc(MAX_STRING_LENGTH * sizeof(char));
