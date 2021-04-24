@@ -59,34 +59,14 @@ int leerDificultad() {
 }
 
 /*
-Calculates the amount of Mr.Meeseeks that will be needed to complete the request
-
-*/
-int cantMrMeeseeks(int dificultad){
-
-     if (dificultad >= 0 & dificultad <= 45){
-        return generarRandom(3, ); 
-        
-    }else if(dificultad > 45 & dificultad <= 85){
-        //Crea entre uno y dos Meeseeks
-        return generarRandom(1, 2);
-
-    }else{
-        return 0;
-    }
-}
-
-
-
-/*
 Solve the arithmetic operation.
 @param:  The arithmetic expression
 @return: Result of the calculation
 */
-double hacerCalculos(char* exp) {
+//double hacerCalculos(char* exp) {
 
-    return te_interp(exp, 0);
-}
+  //  return te_interp(exp, 0);
+//}
 
 /*
 Execute a program.
@@ -96,27 +76,6 @@ Execute a program.
 int run(char* program) {
     return system(program);
 }
-
-
-/*
-Evaluates the probability of asking for help after trying the request
-@param: The dificulty
-@return:  
-*/
-int pedirAyuda(int dificultad){
-    
-    int tiempoTarea = generarRandom(1,5); //Virtualize the execution time of the request
-
-    sleep(tiempoTarea); //Mr.Meeseek is performing the request
-
-    if(dificultad >= 86){
-        return 0; //The request is easy, no help will be needed
-    } 
-    else{
-        return getCantHijos(dificultad); //Mr.Meeseeks needs help
-    }
-}
-
 
 char* readProgram() {
     char* programa = malloc(MAX_STRING_LENGTH * sizeof(char));
@@ -130,4 +89,68 @@ char* readArg() {
     printf("Insert argument: ");
     scanf(" %[^\n]s", arg);
     return arg;
+}
+
+
+float probabilidadCompletarTarea(int dificultad, int cantHijos){
+    return dificultad*(cantHijos/100);
+}
+
+/*
+*/
+int diluirDificultad(int dificultad, int cantHijos){
+    if(dificultad == 0){
+        return dificultad;
+    } else{
+        double temp = generarRandom(1, (int) dificultad); //Random no mayor a la dificultad
+        double reduc = temp * (dificultad / generarRandom(350,550)); //Se reduce a una milesima dictada por la dificultad
+        double extra = (reduc * (cantHijos));
+
+        return dificultad + reduc + extra;
+    }
+} 
+
+
+/*
+Calculates the amount of Mr.Meeseeks that will be needed to complete the request
+*/
+int cantMrMeeseeks(int dificultad){
+
+     if (dificultad >= 0 & dificultad <= 45){
+        return generarRandom(3, 20); 
+        
+    }else if(dificultad > 45 & dificultad <= 85){
+        return generarRandom(1, 2);
+
+    }else{
+        return 1;
+    }
+}
+
+
+/*
+Evaluates the probability of asking for help after trying the request
+@param: The dificulty
+@return:  
+*/
+int intentarTarea(int dificultad, int cantHijos){
+    
+    int tiempoTarea = generarRandom(1,5); //Virtualize the execution time of the request
+
+    sleep(tiempoTarea); //Mr.Meeseek is performing the request
+
+    if(dificultad >= 86){
+        return 0; //The request is easy, no help will be needed
+    } 
+    else{
+
+        float probCompletado;
+        probCompletado = probabilidadCompletarTarea(dificultad, cantHijos);
+        if (probCompletado > 85.01){
+            return 0;
+        }
+        else{
+            return cantMrMeeseeks(dificultad); //Mr.Meeseeks needs help
+        } 
+    }
 }

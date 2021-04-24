@@ -2,16 +2,31 @@
 #include <stdlib.h>
 #include <time.h>
 #include <unistd.h>
+#include "general.c"
 
-int generarDificultad(int min, int max) {
-    srand(time(0));
-    return (rand() % (max - min)) + min;
-}
 
 int main(int argc, char const *argv[])
 {
-    int a = execlp("ls","-la",".", NULL);
+    int cantHijos = 1;
+    float dificultad = 30.0;
+    int interaciones = 0;
+    int tareaCompleta = 1;
 
-    printf("%d", a);
-    return 0;
+    printf("Si funciona");
+
+    while(tareaCompleta != 0){
+        
+        int ayudaMeeseek = intentarTarea(dificultad, cantHijos);
+      
+        cantHijos += ayudaMeeseek;
+
+        dificultad = diluirDificultad(dificultad, cantHijos);
+
+        interaciones++;
+
+        tareaCompleta = ayudaMeeseek;
+
+        printf("CantHijos: %d, Dificultad: %f, iteraciones: %d",cantHijos, dificultad, interaciones);
+    }
+   return 0; 
 }
