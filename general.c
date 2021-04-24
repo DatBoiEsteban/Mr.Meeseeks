@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <time.h>
 #include "tinyexpr.h"
+#include <math.h>
 
 
 #define MAX_STRING_LENGTH 256
@@ -96,7 +97,7 @@ char* readArg() {
 
 
 double probabilidadCompletarTarea(double dificultad, int cantHijos){
-    return dificultad*(cantHijos/100);
+    return dificultad*(cantHijos/150);
 }
 
 /*
@@ -105,14 +106,9 @@ double diluirDificultad(double dificultad, int cantHijos){
     if(dificultad == 0){
         return dificultad;
     } else{
-        double temp = generarRandom(1, (int) dificultad); //Random no mayor a la dificultad
-        double reduc = temp * (dificultad / generarRandom(350,550)); //Se reduce a una milesima dictada por la dificultad
-        double extra = (reduc * (cantHijos));
-
-        return dificultad + reduc;
+        return dificultad + sqrt(cantHijos)/generarRandom(5,9);
     }
 } 
-
 
 /*
 Calculates the amount of Mr.Meeseeks that will be needed to complete the request
@@ -120,7 +116,7 @@ Calculates the amount of Mr.Meeseeks that will be needed to complete the request
 int cantMrMeeseeks(double dificultad){
 
     if ((dificultad >= 0) && (dificultad <= 45)){
-        return generarRandom(3, 20); 
+        return generarRandom(3, 30); 
         
     }else if((dificultad > 45) && (dificultad <= 85)){
         return generarRandom(1, 2);

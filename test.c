@@ -23,7 +23,7 @@ int main(int argc, char const *argv[])
         interaciones++;
         
         tareaCompleta = intentarTarea(dificultad, cantHijos);
-        // printf("CantHijos: %d, Dificultad: %f, iteraciones: %d\n",cantHijos, dificultad, interaciones);
+        printf("CantHijos: %d, Dificultad: %f, iteraciones: %d\n",cantHijos, dificultad, interaciones);
         
     }
     printf("CantHijos: %d, Dificultad: %f, iteraciones: %d\n",cantHijos, dificultad, interaciones);
