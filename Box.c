@@ -15,7 +15,7 @@ int main()
     int Box = getpid();
     globales glob;
 
-    printf("Box pid: %d\n\n", Box);
+    printf("Box pid: %d\n", Box);
 
     while (tipoTarea != 4)
     {

@@ -85,7 +85,13 @@ Execute a program.
 @return: An int regarding if it execute the program successfully(0) or not
 */
 int run(char* programName, char* arg1, char* arg2) {
-    return execlp(programName, programName, arg1, arg2, NULL);
+    char * m=malloc(sizeof(char) * 50);
+    strcat(m, programName);
+    strcat(m, " ");
+    strcat(m, arg1);
+    strcat(m, " ");
+    strcat(m, arg2);
+    return system(m);
 }
 
 

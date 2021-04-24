@@ -63,20 +63,24 @@ char* ejecutarPrograma(char *programa, char *arg1, char *arg2) {
     int fd[2];
     generatePipe(fd);
     pid_t pid = fork();
-    
+
     if(pid == 0) {
         int fallo = run(programa, arg1, arg2);
-        char* mes = malloc(sizeof(char) * 3);
-        if(fallo < 0) {
+
+        // int fallo = system(programa);
+        char *mes = malloc(sizeof(char) * 5);
+        if(fallo == NULL) {
             mes = "NO";
+            // strcpy(mes, "NO");
         } else {
             mes = "YES";
+            // strcpy(mes, "YES");
         }
         writeToPipe(fd, mes);
         exit(0);
 
     } else {
-        char *mensaje = malloc(sizeof(char) * 512), *recibido = malloc(sizeof(char)*3), *tiempo = malloc(sizeof(char)*30);
+        char *mensaje = malloc(sizeof(char) * 512), *recibido = malloc(sizeof(char)*5), *tiempo = malloc(sizeof(char)*30);
 
         if(pid < 0) {
             //se despicho el fork
@@ -104,7 +108,6 @@ char* ejecutarPrograma(char *programa, char *arg1, char *arg2) {
 
         strcat(mensaje, ", Successful?: ");
         strcat(mensaje, recibido);
-        printf("me cago %s",recibido);
         strcat(mensaje, ", Time of execution: ");
         strcat(mensaje, tiempo);
         strcat(mensaje, "\n");
@@ -120,7 +123,7 @@ char* hacerLaMate(char* exp) {
     generatePipe(fd);
     pid_t pid = fork();
     if(pid == 0) {
-        
+        printf("Dani tambien me vendio");
         double resultado = hacerCalculos(exp);
         char *resulSTR = malloc(sizeof(char) * 30);
         sprintf(resulSTR,"%f.4", resultado);

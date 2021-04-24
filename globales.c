@@ -19,13 +19,13 @@ void generatePipe(int* fd) {
     pipe(fd);
 }
 
-void writeToPipe(int* fd, char* message) {
+void writeToPipe(int* fd, char message[]) {
     close(fd[0]);
     write(fd[1], message, sizeof(message));
     close(fd[1]);
 }
 
-void readFromPipe(int* fd, char* message) {
+void readFromPipe(int* fd, char message[]) {
     close(fd[1]);
     read(fd[0], message, sizeof(message));
     close(fd[0]);
