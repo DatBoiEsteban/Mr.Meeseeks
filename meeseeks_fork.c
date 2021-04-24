@@ -9,15 +9,18 @@
 
 char* realizarTarea(char* tarea, double dificultad) {
     pid_t pid;
-    int MeeseeksPadre;
+
     pid = fork();
 
     int nivel = 1;
+    int instancia = 1;
+    
+    globales* glob;
+    initSem(&glob->tareaFinalizada, "/Meeseeks");
 
     clock_t inicio_op = clock();
     double tiempo_op;
     if (pid == 0) {
-        MeeseeksPadre = getpid();
         printf("Hi I'm Mr. Meeseeks! Look at Meeee. (pid: %d, ppid: %d, N: %d, i: %d)\n",
             getpid(),
             getppid(),
@@ -50,6 +53,9 @@ char* realizarTarea(char* tarea, double dificultad) {
         }
     } else {
         //Meeseeks Box
+        while(obtenerValorSemaforo(&glob->tareaFinalizada) == 0) {
+            // Leer del named pipe?
+        }
         tiempo_op = (double)(clock() - inicio_op) / CLOCKS_PER_SEC;
 
     }
