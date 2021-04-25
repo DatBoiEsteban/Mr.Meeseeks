@@ -100,7 +100,7 @@ void readFromPipe(int *fd, char *message)
 }
 
 /*
-Initializes the shared memory with the struct containing the global variables.
+Initializes the shared memory with the struct containing the global variables
 @param: pointer to the struct
 @return: void
 */
@@ -119,18 +119,33 @@ globales *compartirMemoria(int *fd)
     return glob;
 }
 
+/*
+Detaches the shared memory and errase the file
+@param: file descriptor, global variables
+@return: void
+*/
 void cerrarMemoria(int *fd, globales *glob)
 {
     munmap(glob, sizeof(globales));
     close(*fd);
 }
 
+/*
+Detaches the shared memory from the child process
+@param: file descriptor, global variables
+@return: void
+*/
 void cerrarMemoriaHijo(int *fd, globales *glob)
 {
     cerrarMemoria(fd, glob);
     shm_unlink(NAME);
 }
 
+/*
+Attaches a process to the shared memory
+@param: file descriptor
+@return: ponter to the global variables
+*/
 globales *unirseAMemoria(int *fd)
 {
     int desc = shm_open(NAME, O_RDWR, 0666);

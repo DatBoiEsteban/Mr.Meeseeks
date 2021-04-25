@@ -6,7 +6,11 @@
 
 #include "globales.c"
 #include "general.c"
-
+/*
+Strategy of planetary Chaos, simulates random amount of processes (between 10000 to 150000)
+@param: void
+@return: void
+*/
 void caos()
 {
     printf("CAOS PLANETARIO ");
@@ -25,6 +29,11 @@ void caos()
     exit(0);
 }
 
+/*
+Manages the processes for the textual request, in a recursive manner
+@param: request, difficulty, level, instance, file descriptor and global variables
+@return: void
+*/
 void realizar(char *tarea, double dificultad, int nivel, int instancia, int fd, globales *globThis)
 {
     int cantHijos = intentarTarea(dificultad, globThis->meeseeksIniciados);
@@ -46,7 +55,7 @@ void realizar(char *tarea, double dificultad, int nivel, int instancia, int fd, 
     }
     else
     {
-        nivel++; // subimos de nivel porque pasamos a ser chamacos
+        nivel++; // subimos de nivel porque se pasa a los child process
         pid_t pid;
         int *pidHijos = malloc(sizeof(int) * cantHijos);
         for (int i = 0; i < cantHijos; i++)
@@ -86,6 +95,11 @@ void realizar(char *tarea, double dificultad, int nivel, int instancia, int fd, 
     }
 }
 
+/*
+Performs the textual request
+@param: request, difficulty
+@return: message for the record
+*/
 char *realizarTarea(char *tarea, double dificultad)
 {
     if (dificultad == 0)
@@ -137,6 +151,12 @@ char *realizarTarea(char *tarea, double dificultad)
     }
 }
 
+
+/*
+Executes the program with arguments
+@param: program for execute
+@return: message for the record
+*/
 char *ejecutarPrograma(char *programa)
 {
     clock_t inicio_op = clock();
@@ -166,8 +186,8 @@ char *ejecutarPrograma(char *programa)
 
         if (pid < 0)
         {
-            //se despicho el fork
-            printf("crome");
+            //en caso de que falle el fork()
+            printf("Existence is pain!!!");
             exit(0);
         }
         else
@@ -189,6 +209,12 @@ char *ejecutarPrograma(char *programa)
     }
 }
 
+
+/*
+Complete the request of doing a math operation
+@param: algebraic expression
+@return: message for the record
+*/
 char *hacerLaMate(char *exp)
 {
     clock_t inicio_op = clock();
@@ -202,7 +228,7 @@ char *hacerLaMate(char *exp)
         double resultado = hacerCalculos(exp);
         char *resulSTR = malloc(sizeof(char) * 30);
         sprintf(resulSTR, "%f", resultado);
-        writeToPipe(fd, resulSTR); // Agregar el mensaje
+        writeToPipe(fd, resulSTR); // Agregar el mensaje a la bitacora
         exit(0);
     }
     else
@@ -211,8 +237,8 @@ char *hacerLaMate(char *exp)
 
         if (pid < 0)
         {
-            //se despicho el fork
-            printf("crome");
+            // en caso de que falle el fork()
+            printf("Existence is pain!!!");
             exit(0);
         }
         else

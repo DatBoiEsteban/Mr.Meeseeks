@@ -23,7 +23,7 @@ void sayHiMrMeeseeks(int nivel, int nInstancia)
 /*
 Ask the user for his request to Mr.Meeseeks
 @param: void
-@return: The request made
+@return: the request made
 */
 char *leerConsulta()
 {
@@ -37,7 +37,7 @@ char *leerConsulta()
 /*
 Generate a random int between a range of numbers
 @param: min value of the range, max value of the range
-@return: Random int generated
+@return: random int generated
 */
 int generarRandom(int min, int max)
 {
@@ -52,7 +52,7 @@ int generarRandom(int min, int max)
 /*
 Read the input difficulty of the user or randomly generate if unknown
 @param: void
-@return: Difficulty of the request
+@return: difficulty of the request
 */
 int leerDificultad()
 {
@@ -69,25 +69,29 @@ int leerDificultad()
 
 /*
 Solve the arithmetic operation.
-@param:  The arithmetic expression
-@return: Result of the calculation
+@param:  the arithmetic expression
+@return: result of the calculation
 */
 double hacerCalculos(char *exp)
 {
-
     return te_interp(exp, 0);
 }
 
 /*
 Execute a program.
-@param: The name of the program and it's arguments.
-@return: An int regarding if it execute the program successfully(0) or not
+@param: the name of the program and it's arguments.
+@return: an int regarding if it execute the program successfully(0) or not
 */
 int run(char *program)
 {
     return system(program);
 }
 
+/*
+Read the program
+@param: void
+@return: the program for execution
+*/
 char *readProgram()
 {
     char *programa = malloc(MAX_STRING_LENGTH * sizeof(char));
@@ -96,13 +100,20 @@ char *readProgram()
     return programa;
 }
 
-
+/*
+Evaluates the probabality of complete a request.
+@param: difficculty of the request, amount of Meeseeks
+@return: probabilty of succceding
+*/
 double probabilidadCompletarTarea(double dificultad, int cantHijos)
 {
     return dificultad * (cantHijos / 150);
 }
 
 /*
+Ages the request that are to hard of complete
+@param: difficculty of the request, amount of Meeseeks
+@return: the new difficulty of the request
 */
 double diluirDificultad(double dificultad, int cantHijos)
 {
@@ -117,7 +128,9 @@ double diluirDificultad(double dificultad, int cantHijos)
 }
 
 /*
-Calculates the amount of Mr.Meeseeks that will be needed to complete the request
+Calculates the amount of Mr.Meeseeks for helping complete the request
+@param: difficulty of the request
+@return: amount of Meeseeks
 */
 int cantMrMeeseeks(double dificultad)
 {
@@ -137,9 +150,9 @@ int cantMrMeeseeks(double dificultad)
 }
 
 /*
-Evaluates the probability of asking for help after trying the request
-@param: The dificulty
-@return:  
+Tries to complete the task
+@param: The dificulty, amount of Meeseeks
+@return:  0 if task complete or amount of Meeseek that are needed for more chance of completing the request.
 */
 int intentarTarea(double dificultad, int cantHijos)
 {
@@ -154,7 +167,6 @@ int intentarTarea(double dificultad, int cantHijos)
     }
     else
     {
-
         double probCompletado = probabilidadCompletarTarea(dificultad, cantHijos);
         if (probCompletado > 85.01)
         {

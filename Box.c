@@ -15,17 +15,17 @@ int main()
     while (tipoTarea != 4)
     {
 
-        printf("Desea trabajar con Threads? (0 = Threads 1 = Procesos) : ");
+        printf("What do you want to use? (0 = Threads(comming soon) 1 = Processes) : ");
         scanf("%d", &tipo);
-        printf("Seleccion el tipo de tarea que desea: \n    1. Accion Textual \n    2. Operación Textual  \n    3. Ejecutar Programa  \n    4. Salir\n");
-        printf("Ingrese su opción: ");
+        printf("Select the type of request: \n    1. Textual Request \n    2. Maths  \n    3. Execcute a program  \n    4. Exit\n");
+        printf("Input your choice: ");
         scanf("%d", &tipoTarea);
 
         switch (tipoTarea)
         {
-        case 1:
+        case 1: 
         {
-            char *tarea = leerConsulta();
+            char* tarea = leerConsulta();
             dificultad = leerDificultad();
 
             if (tipo)
@@ -42,10 +42,10 @@ int main()
 
         case 2:
         {
-            char *tarea = leerConsulta();
+            char* tarea = leerConsulta();
             if (tipo == 1)
             {
-                char *res = hacerLaMate(tarea);
+                char* res = hacerLaMate(tarea);
                 strcat(bitacora, res);
             }
             else
@@ -57,10 +57,10 @@ int main()
 
         case 3:
         {
-            char *programa = readProgram();
+            char* programa = readProgram();
             if (tipo)
             {
-                char *res = ejecutarPrograma(programa);
+                char* res = ejecutarPrograma(programa);
                 strcat(bitacora, res);
             }
             else
@@ -68,17 +68,15 @@ int main()
             }
             break;
         }
-
+        
         case 4:
             printf("%s\n",bitacora);
             free(bitacora);
             break;
         default:
-            printf("\nLa opción %d no existe\n\n", tipoTarea);
+            printf("\nThe option %d is invalid\n\n", tipoTarea);
             break;
         }
-
-        // agregar a bitacora
     }
     return 0;
 }
