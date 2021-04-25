@@ -7,12 +7,12 @@
 
 int main()
 {
-    int tipo;
+    int tipo = 0;
     int tipoTarea = 0;
-    char *tarea;
-    double dificultad;
+    char *tarea = "";
+    double dificultad = 0;
     int Box = getpid();
-    char *bitacora = malloc(sizeof(char) * 10000);
+    char *bitacora = malloc( 10000);
 
     printf("Box pid: %d\n", Box);
 
@@ -70,7 +70,7 @@ int main()
         }
 
         case 4:
-            printf(bitacora);
+            printf("%s\n",bitacora);
             break;
         default:
             printf("\nLa opción %d no existe\n\n", tipoTarea);

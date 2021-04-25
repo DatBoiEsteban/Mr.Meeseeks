@@ -65,6 +65,7 @@ void realizar(char *tarea, double dificultad, int nivel, int instancia, int fd, 
             {
                 waitpid(pidHijos[i], 0, 0);
             }
+            free(pidHijos);
             cerrarMemoriaHijo(&fd, globThis);
             exit(0);
         }
@@ -106,8 +107,10 @@ char *realizarTarea(char *tarea, double dificultad)
         char *dif = malloc(sizeof(char)*15);
         sprintf(dif, "%f", dificultad);
         strcat(mensaje, dif);
+        free(dif);
         strcat(mensaje, ", Time of execution: ");
         strcat(mensaje, tiempo);
+        free(tiempo);
         strcat(mensaje, "\n");
         return mensaje; // La salida formateada para la bitacora
 }
@@ -123,8 +126,6 @@ char *ejecutarPrograma(char *programa)
     if (pid == 0)
     {
         int fallo = run(programa);
-
-        // int fallo = system(programa);
         char *mes = malloc(sizeof(char) * 5);
         if (fallo == 0)
         {
@@ -135,6 +136,7 @@ char *ejecutarPrograma(char *programa)
             mes = "NO";
         }
         writeToPipe(fd, mes);
+        free(mes);
         exit(0);
     }
     else
@@ -159,8 +161,10 @@ char *ejecutarPrograma(char *programa)
         strcat(mensaje, programa);
         strcat(mensaje, ", Successful?: ");
         strcat(mensaje, recibido);
+        free(recibido);
         strcat(mensaje, ", Time of execution: ");
         strcat(mensaje, tiempo);
+        free(tiempo);
         strcat(mensaje, "\n");
         return mensaje; // La salida formateada para la bitacora
     }
@@ -180,6 +184,7 @@ char *hacerLaMate(char *exp)
         char *resulSTR = malloc(sizeof(char) * 30);
         sprintf(resulSTR, "%f", resultado);
         writeToPipe(fd, resulSTR); // Agregar el mensaje
+        free(resulSTR);
         exit(0);
     }
     else
@@ -204,8 +209,10 @@ char *hacerLaMate(char *exp)
         strcat(mensaje, exp);
         strcat(mensaje, ", Value: ");
         strcat(mensaje, recibido);
+        free(recibido);
         strcat(mensaje, ", Time of execution: ");
         strcat(mensaje, tiempo);
+        free(tiempo);
         strcat(mensaje, "\n");
         return mensaje; // La salida formateada para la bitacora
     }
