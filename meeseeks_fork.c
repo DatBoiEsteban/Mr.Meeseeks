@@ -12,7 +12,7 @@ void caos()
     printf("CAOS PLANETARIO ");
     sleep(1);
     pid_t pid;
-    for (int i = 0; i < generarRandom(10000, 15000); i++)
+    for (int i = 0; i < 10000; i++)
     {
         pid = fork();
 
@@ -22,7 +22,6 @@ void caos()
             exit(0);
         }
     }
-    exit(0);
 }
 
 void realizar(char *tarea, double dificultad, int nivel, int instancia, int fd, globales *globThis)
