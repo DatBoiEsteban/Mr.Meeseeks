@@ -22,6 +22,8 @@ void caos()
             exit(0);
         }
     }
+    while (wait(NULL) > 0){}
+    
 }
 
 void realizar(char *tarea, double dificultad, int nivel, int instancia, int fd, globales *globThis)
@@ -90,6 +92,7 @@ char *realizarTarea(char *tarea, double dificultad)
     if (dificultad == 0)
     {
         caos();
+        return "Action executed: Planetary Chaos, Dificulty: 0, Time of execution: ???????????????\n";
     }
     else
     {
