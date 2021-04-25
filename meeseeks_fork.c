@@ -7,34 +7,35 @@
 #include "globales.c"
 #include "general.c"
 
+globales *glob;
 
 void realizar(char *tarea, double dificultad, globales *glob, int nivel, int instancia)
 {
-    int cantHijos = intentarTarea(dificultad, glob->meeseeksIniciados);
-    int valorSemaforo = obtenerValorSemaforo(&glob->tareaFinalizada);
-    printf(" %d\n", cantHijos);
-    if (valorSemaforo == 1 || cantHijos == 0)
+    int cantHijos = intentarTarea(dificultad, 50);
+    // int cantHijos = intentarTarea(dificultad, glob->meeseeksIniciados);
+    printf("Me cago %d\n",cantHijos);
+    if ( cantHijos == 0)
     {
-        if(valorSemaforo != 1) {
-            bloquearSemaforo(&glob->tareaFinalizada);
-        }
-        glob->pidMeeseekFinalizado = getpid();
-        glob->ppidMeeseekFinalizado = getppid();
-        glob->nMeeseekFinalizado = nivel;
-        glob->iMeeseekFinalizado = instancia;
+        // if (obtenerValorSemaforo(&glob->tareaFinalizada) == 0)
+        // {
+        //     bloquearSemaforo(&glob->tareaFinalizada);
+        //     glob->pidMeeseekFinalizado = getpid();
+        //     glob->ppidMeeseekFinalizado = getppid();
+        //     glob->nMeeseekFinalizado = nivel;
+        //     glob->iMeeseekFinalizado = instancia;
+        // }
+
+        printf("listo");
         exit(0);
     }
     else
     {
         nivel++; // subimos de nivel porque pasamos a ser chamacos
-        printf("%d\n", nivel);
         pid_t pid;
         if (0)
         {
             // Caos planetario
         }
-        // int *pipesPorHijo = malloc(sizeof(int) * cantHijos);
-        // int *pipePadre;
         int *pidHijos = malloc(sizeof(int) * cantHijos);
         for (int i = 0; i < cantHijos; i++)
         {
@@ -45,25 +46,25 @@ void realizar(char *tarea, double dificultad, globales *glob, int nivel, int ins
 
             if (pid == 0)
             {
-                glob->meeseeksIniciados++;
+                //glob->meeseeksIniciados++;
                 sayHiMrMeeseeks(nivel, ins);
-                // pipePadre = fd;
                 char *tareaARealizar = malloc(sizeof(char) * MAX_STRING_LENGTH);
                 readFromPipe(fd, tareaARealizar);
                 dificultad = diluirDificultad(dificultad, cantHijos);
-                printf("%s\n", tareaARealizar);
                 realizar(tareaARealizar, dificultad, glob, nivel, ins);
             }
             else
             {
-                // pipesPorHijo[i] = fd;
                 writeToPipe(fd, tarea);
                 pidHijos[i] = pid;
             }
         }
         if (pid != 0)
         {
-            while(wait(NULL) > 0){}
+            while (wait(NULL) > 0)
+            {
+            }
+            liberarMemoriaHijo(glob);
             exit(0);
         }
     }
@@ -74,10 +75,8 @@ char *realizarTarea(char *tarea, double dificultad)
     int nivel = 1;
     int instancia = 1;
 
-    globales glob;
-    compartirMemoria(&glob);
-    initSem(&glob.tareaFinalizada, 1); // Tipo de semaforo 1 para procesos 0 para threads
-
+    glob = compartirMemoria(glob);
+    initSem(&glob->tareaFinalizada, 1); // Tipo de semaforo 1 para procesos 0 para threads
     clock_t inicio_op = clock();
     double tiempo_op;
     pid_t pid = fork();
@@ -85,19 +84,22 @@ char *realizarTarea(char *tarea, double dificultad)
     if (pid == 0)
     {
         sayHiMrMeeseeks(nivel, instancia);
-        glob.meeseeksIniciados++;
-        realizar(tarea, dificultad, &glob, nivel, instancia);
+        //glob->meeseeksIniciados++;
+        printf("segura es playo");
+        realizar(tarea, dificultad, glob, nivel, instancia);
     }
     else
     {
+        //while (obtenerValorSemaforo(&glob->tareaFinalizada) == 0){}
         wait(NULL);
+        printf("me cago en segura %d\n", glob->meeseeksIniciados);
+        // sayHiMrMeeseeks(glob->nMeeseekFinalizado, glob->iMeeseekFinalizado);
+        liberarMemoriaPadre(glob);
         tiempo_op = (double)(clock() - inicio_op) / CLOCKS_PER_SEC;
     }
 
     return "holi"; // La salida formateada para la bitacora
 }
-
-
 
 char *ejecutarPrograma(char *programa)
 {
@@ -163,7 +165,6 @@ char *hacerLaMate(char *exp)
     pid_t pid = fork();
     if (pid == 0)
     {
-        printf("Dani tambien me vendio");
         double resultado = hacerCalculos(exp);
         char *resulSTR = malloc(sizeof(char) * 30);
         sprintf(resulSTR, "%f.4", resultado);

@@ -3,6 +3,7 @@
 #include <sys/stat.h>
 #include <fcntl.h>
 #include <sys/shm.h>
+#include <sys/mman.h>
 
 /*
 This struct will contain the global values needed for process comunication, besides the one-to-one pipes.
@@ -14,8 +15,8 @@ typedef struct globales
     sem_t tareaFinalizada;
 
     int meeseeksIniciados;
-    int pidMeeseekFinalizado;
-    int ppidMeeseekFinalizado;
+    pid_t pidMeeseekFinalizado;
+    pid_t ppidMeeseekFinalizado;
     int nMeeseekFinalizado;
     int iMeeseekFinalizado;
 }globales;
@@ -94,13 +95,19 @@ Initializes the shared memory with the struct containing the global variables.
 @param: pointer to the struct
 @return: void
 */
-void compartirMemoria(globales* glob) { 
+globales* compartirMemoria(globales* glob) { 
     key_t shmKey;
     int shmId;
 
-    shmKey = ftok(".", 'x');
+    shmKey = ftok("MeeseeksBox", 65);
     shmId = shmget(shmKey,sizeof(globales), IPC_CREAT | 0666);
     glob = (globales *)shmat(shmId, NULL, 0);
+    glob->iMeeseekFinalizado = 0;
+    glob->meeseeksIniciados = 0;
+    glob->nMeeseekFinalizado = 0;
+    glob->pidMeeseekFinalizado = 0;
+    glob->ppidMeeseekFinalizado = 0;
+    return glob;
 }
 
 /*

@@ -13,11 +13,12 @@ Prints the distinguish greeting of Mr.Meeseeks, his pid, ppid, level and instanc
 @return: void
 */
 void sayHiMrMeeseeks(int nivel, int nInstancia){
-    printf("Hi I'm Mr. Meeseeks! Look at Meeee. (pid: %d, ppid: %d, N: %d, i: %d)\n",
+    fprintf(stdout, "Hi I'm Mr. Meeseeks! Look at Meeee. (pid: %d, ppid: %d, N: %d, i: %d)\n",
             getpid(),
             getppid(),
             nivel,
             nInstancia);
+    fflush(stdout);
 }
 
 /*
@@ -53,7 +54,7 @@ Read the input difficulty of the user or randomly generate if unknown
 */
 int leerDificultad() {
     int dificultad;
-    printf("Which is your request difficuty? (100 = easy breezy, 0 = impossible, -1 = I don't know yet ");
+    printf("Which is your request difficuty? (100 = easy breezy, 0 = impossible, -1 = I don't know yet) ");
     scanf(" %d", &dificultad);
     if(dificultad == -1){
         dificultad = generarRandom(0, 100);
@@ -145,7 +146,6 @@ int intentarTarea(double dificultad, int cantHijos){
 
         double probCompletado = probabilidadCompletarTarea(dificultad, cantHijos);
         if (probCompletado > 85.01){
-            printf("prob\n");
             return 0;
         }
         else{

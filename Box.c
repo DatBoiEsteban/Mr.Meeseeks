@@ -30,6 +30,7 @@ int main()
         {
             tarea = leerConsulta();
             dificultad = leerDificultad();
+
             if (tipo)
             {
                 char *as = realizarTarea(tarea, dificultad);
@@ -46,6 +47,7 @@ int main()
             tarea = leerConsulta();
             if (tipo == 1)
             {
+                
                 char *as = hacerLaMate(tarea);
                 printf(as);
             }
