@@ -1,31 +1,29 @@
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <unistd.h>
-#include <time.h>
+#include <sys/time.h>
 #include <string.h>
 
 #include "globales.c"
 #include "general.c"
 
-globales *glob;
-
-void realizar(char *tarea, double dificultad, globales *glob, int nivel, int instancia)
+void realizar(char *tarea, double dificultad, int nivel, int instancia, int fd, globales *globThis)
 {
-    int cantHijos = intentarTarea(dificultad, 50);
-    // int cantHijos = intentarTarea(dificultad, glob->meeseeksIniciados);
-    printf("Me cago %d\n",cantHijos);
-    if ( cantHijos == 0)
+    int cantHijos = intentarTarea(dificultad, globThis->meeseeksIniciados);
+    if (cantHijos == 0 || globThis->bloqueo == 1)
     {
-        // if (obtenerValorSemaforo(&glob->tareaFinalizada) == 0)
-        // {
-        //     bloquearSemaforo(&glob->tareaFinalizada);
-        //     glob->pidMeeseekFinalizado = getpid();
-        //     glob->ppidMeeseekFinalizado = getppid();
-        //     glob->nMeeseekFinalizado = nivel;
-        //     glob->iMeeseekFinalizado = instancia;
-        // }
 
-        printf("listo");
+        if (obtenerValorSemaforo(&globThis->tareaFinalizada) == 0)
+        {
+            bloquearSemaforo(&globThis->tareaFinalizada);
+            globThis->bloqueo = 1;
+            desbloquearSemaforo(&globThis->tareaFinalizada);
+            globThis->pidMeeseekFinalizado = getpid();
+            globThis->ppidMeeseekFinalizado = getppid();
+            globThis->nMeeseekFinalizado = nivel;
+            globThis->iMeeseekFinalizado = instancia;
+        }
+        cerrarMemoriaHijo(&fd, globThis);
         exit(0);
     }
     else
@@ -46,12 +44,14 @@ void realizar(char *tarea, double dificultad, globales *glob, int nivel, int ins
 
             if (pid == 0)
             {
-                //glob->meeseeksIniciados++;
-                sayHiMrMeeseeks(nivel, ins);
                 char *tareaARealizar = malloc(sizeof(char) * MAX_STRING_LENGTH);
                 readFromPipe(fd, tareaARealizar);
+                int fdm;
+                globales *globHijo = unirseAMemoria(&fdm);
+                globHijo->meeseeksIniciados++;
+                sayHiMrMeeseeks(nivel, ins);
                 dificultad = diluirDificultad(dificultad, cantHijos);
-                realizar(tareaARealizar, dificultad, glob, nivel, ins);
+                realizar(tareaARealizar, dificultad, nivel, ins, fdm, globHijo);
             }
             else
             {
@@ -61,10 +61,11 @@ void realizar(char *tarea, double dificultad, globales *glob, int nivel, int ins
         }
         if (pid != 0)
         {
-            while (wait(NULL) > 0)
+            for (int i = 0; i < cantHijos; i++)
             {
+                waitpid(pidHijos[i], 0, 0);
             }
-            liberarMemoriaHijo(glob);
+            cerrarMemoriaHijo(&fd, globThis);
             exit(0);
         }
     }
@@ -74,31 +75,41 @@ char *realizarTarea(char *tarea, double dificultad)
 {
     int nivel = 1;
     int instancia = 1;
-
-    glob = compartirMemoria(glob);
+    int fd;
+    globales *glob = compartirMemoria(&fd);
     initSem(&glob->tareaFinalizada, 1); // Tipo de semaforo 1 para procesos 0 para threads
     clock_t inicio_op = clock();
     double tiempo_op;
     pid_t pid = fork();
-
+    char *mensaje = malloc(sizeof(char) * 512),  *tiempo = malloc(sizeof(char) * 30);
     if (pid == 0)
     {
+        int fd;
+        globales *globhijo = unirseAMemoria(&fd);
         sayHiMrMeeseeks(nivel, instancia);
-        //glob->meeseeksIniciados++;
-        printf("segura es playo");
-        realizar(tarea, dificultad, glob, nivel, instancia);
+        globhijo->meeseeksIniciados++;
+        realizar(tarea, dificultad, nivel, instancia, fd, globhijo);
     }
     else
     {
-        //while (obtenerValorSemaforo(&glob->tareaFinalizada) == 0){}
-        wait(NULL);
-        printf("me cago en segura %d\n", glob->meeseeksIniciados);
-        // sayHiMrMeeseeks(glob->nMeeseekFinalizado, glob->iMeeseekFinalizado);
-        liberarMemoriaPadre(glob);
-        tiempo_op = (double)(clock() - inicio_op) / CLOCKS_PER_SEC;
-    }
 
-    return "holi"; // La salida formateada para la bitacora
+        while (glob->bloqueo == 0)
+        {
+        }wait(NULL);
+        tiempo_op = (double)(clock() - inicio_op) / CLOCKS_PER_SEC;
+        sprintf(tiempo, "%f.4", tiempo_op);
+        cerrarMemoria(&fd, glob);
+    }
+        strcat(mensaje, "Action executed: ");
+        strcat(mensaje, tarea);
+        strcat(mensaje, ", Dificulty: ");
+        char *dif = malloc(sizeof(char)*15);
+        sprintf(dif, "%f", dificultad);
+        strcat(mensaje, dif);
+        strcat(mensaje, ", Time of execution: ");
+        strcat(mensaje, tiempo);
+        strcat(mensaje, "\n");
+        return mensaje; // La salida formateada para la bitacora
 }
 
 char *ejecutarPrograma(char *programa)
@@ -141,7 +152,7 @@ char *ejecutarPrograma(char *programa)
             // Meeseeks Box
             wait(&pid);
             tiempo_op = (double)(clock() - inicio_op) / CLOCKS_PER_SEC;
-            sprintf(tiempo, "%f.4", tiempo_op);
+            sprintf(tiempo, "%f", tiempo_op);
             readFromPipe(fd, recibido); // Agregar donde recibir el mensaje
         }
         strcat(mensaje, "Program executed: ");
@@ -167,7 +178,7 @@ char *hacerLaMate(char *exp)
     {
         double resultado = hacerCalculos(exp);
         char *resulSTR = malloc(sizeof(char) * 30);
-        sprintf(resulSTR, "%f.4", resultado);
+        sprintf(resulSTR, "%f", resultado);
         writeToPipe(fd, resulSTR); // Agregar el mensaje
         exit(0);
     }
@@ -186,7 +197,7 @@ char *hacerLaMate(char *exp)
             // Meeseeks Box
             wait(&pid);
             tiempo_op = (double)(clock() - inicio_op) / CLOCKS_PER_SEC;
-            sprintf(tiempo, "%f.4", tiempo_op);
+            sprintf(tiempo, "%f", tiempo_op);
             readFromPipe(fd, recibido); // Agregar donde recibir el mensaje
         }
         strcat(mensaje, "Expression evaluated: ");

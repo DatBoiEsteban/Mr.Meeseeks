@@ -12,6 +12,7 @@ int main()
     char *tarea;
     double dificultad;
     int Box = getpid();
+    char *bitacora = malloc(sizeof(char) * 10000);
 
     printf("Box pid: %d\n", Box);
 
@@ -33,8 +34,7 @@ int main()
 
             if (tipo)
             {
-                char *as = realizarTarea(tarea, dificultad);
-                printf(as);
+                strcat(bitacora, realizarTarea(tarea, dificultad));
             }
             else
             {
@@ -47,9 +47,8 @@ int main()
             tarea = leerConsulta();
             if (tipo == 1)
             {
-                
-                char *as = hacerLaMate(tarea);
-                printf(as);
+
+                strcat(bitacora, hacerLaMate(tarea));
             }
             else
             {
@@ -62,8 +61,7 @@ int main()
             char *programa = readProgram();
             if (tipo)
             {
-                char *as = ejecutarPrograma(programa);
-                printf(as);
+                strcat(bitacora, ejecutarPrograma(programa));
             }
             else
             {
@@ -72,6 +70,7 @@ int main()
         }
 
         case 4:
+            printf(bitacora);
             break;
         default:
             printf("\nLa opción %d no existe\n\n", tipoTarea);

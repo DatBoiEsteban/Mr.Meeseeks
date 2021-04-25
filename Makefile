@@ -1,5 +1,5 @@
 CC = gcc
-CCFLAGS = -Wall -Wshadow -O2
+CCFLAGS = -lrt
 LFLAGS = -lm -lpthread 
 
 box: Box.c tinyexpr.c
