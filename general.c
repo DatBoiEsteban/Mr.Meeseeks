@@ -96,13 +96,6 @@ char *readProgram()
     return programa;
 }
 
-char *readArg()
-{
-    char *arg = malloc(MAX_STRING_LENGTH * sizeof(char));
-    printf("Insert argument: ");
-    scanf(" %[^\n]s", arg);
-    return arg;
-}
 
 double probabilidadCompletarTarea(double dificultad, int cantHijos)
 {

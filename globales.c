@@ -15,7 +15,6 @@ N (nMeeseekFinalizado) and i (iMeeseekFinalizado) of the Mr.Meeseek who complete
 typedef struct globales
 {
     sem_t tareaFinalizada;
-
     int meeseeksIniciados;
     pid_t pidMeeseekFinalizado;
     pid_t ppidMeeseekFinalizado;

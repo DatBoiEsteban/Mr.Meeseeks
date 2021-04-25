@@ -34,11 +34,15 @@ int main()
 
             if (tipo)
             {
-                strcat(bitacora, realizarTarea(tarea, dificultad));
+                char* res = realizarTarea(tarea, dificultad);
+                strcat(bitacora, res);
+                free(res);
             }
             else
             {
             }
+
+            free(tarea);
             break;
         }
 
@@ -47,12 +51,14 @@ int main()
             tarea = leerConsulta();
             if (tipo == 1)
             {
-
-                strcat(bitacora, hacerLaMate(tarea));
+                char *res = hacerLaMate(tarea);
+                strcat(bitacora, res);
+                free(res);
             }
             else
             {
             }
+            free(tarea);
             break;
         }
 
@@ -61,11 +67,14 @@ int main()
             char *programa = readProgram();
             if (tipo)
             {
-                strcat(bitacora, ejecutarPrograma(programa));
+                char *res = ejecutarPrograma(programa);
+                strcat(bitacora, res);
+                free(res);
             }
             else
             {
             }
+            free(programa);
             break;
         }
 

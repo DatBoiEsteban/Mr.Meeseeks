@@ -7,6 +7,23 @@
 #include "globales.c"
 #include "general.c"
 
+void caos()
+{
+    printf("CAOS PLANETARIO ");
+    sleep(1);
+    pid_t pid;
+    for (int i = 0; i < generarRandom(10000, 15000); i++)
+    {
+        pid = fork();
+
+        if (pid == 0)
+        {
+            sayHiMrMeeseeks(1, i + 1);
+            exit(0);
+        }
+    }
+}
+
 void realizar(char *tarea, double dificultad, int nivel, int instancia, int fd, globales *globThis)
 {
     int cantHijos = intentarTarea(dificultad, globThis->meeseeksIniciados);
@@ -30,10 +47,6 @@ void realizar(char *tarea, double dificultad, int nivel, int instancia, int fd, 
     {
         nivel++; // subimos de nivel porque pasamos a ser chamacos
         pid_t pid;
-        if (0)
-        {
-            // Caos planetario
-        }
         int *pidHijos = malloc(sizeof(int) * cantHijos);
         for (int i = 0; i < cantHijos; i++)
         {
@@ -74,37 +87,43 @@ void realizar(char *tarea, double dificultad, int nivel, int instancia, int fd, 
 
 char *realizarTarea(char *tarea, double dificultad)
 {
-    int nivel = 1;
-    int instancia = 1;
-    int fd;
-    globales *glob = compartirMemoria(&fd);
-    initSem(&glob->tareaFinalizada, 1); // Tipo de semaforo 1 para procesos 0 para threads
-    clock_t inicio_op = clock();
-    double tiempo_op;
-    pid_t pid = fork();
-    char *mensaje = malloc(sizeof(char) * 512),  *tiempo = malloc(sizeof(char) * 30);
-    if (pid == 0)
+    if (dificultad == 0)
     {
-        int fd;
-        globales *globhijo = unirseAMemoria(&fd);
-        sayHiMrMeeseeks(nivel, instancia);
-        globhijo->meeseeksIniciados++;
-        realizar(tarea, dificultad, nivel, instancia, fd, globhijo);
+        caos();
     }
     else
     {
-
-        while (glob->bloqueo == 0)
+        int nivel = 1;
+        int instancia = 1;
+        int fd;
+        globales *glob = compartirMemoria(&fd);
+        initSem(&glob->tareaFinalizada, 1); // Tipo de semaforo 1 para procesos 0 para threads
+        clock_t inicio_op = clock();
+        double tiempo_op;
+        pid_t pid = fork();
+        char *mensaje = malloc(sizeof(char) * 512), *tiempo = malloc(sizeof(char) * 30);
+        if (pid == 0)
         {
-        }wait(NULL);
-        tiempo_op = (double)(clock() - inicio_op) / CLOCKS_PER_SEC;
-        sprintf(tiempo, "%f.4", tiempo_op);
-        cerrarMemoria(&fd, glob);
-    }
+            int fd;
+            globales *globhijo = unirseAMemoria(&fd);
+            sayHiMrMeeseeks(nivel, instancia);
+            globhijo->meeseeksIniciados++;
+            realizar(tarea, dificultad, nivel, instancia, fd, globhijo);
+        }
+        else
+        {
+            while (glob->bloqueo == 0)
+            {
+            }
+            wait(NULL);
+            tiempo_op = (double)(clock() - inicio_op) / CLOCKS_PER_SEC;
+            sprintf(tiempo, "%f.4", tiempo_op);
+            cerrarMemoria(&fd, glob);
+        }
         strcat(mensaje, "Action executed: ");
         strcat(mensaje, tarea);
         strcat(mensaje, ", Dificulty: ");
-        char *dif = malloc(sizeof(char)*15);
+        char *dif = malloc(sizeof(char) * 15);
         sprintf(dif, "%f", dificultad);
         strcat(mensaje, dif);
         free(dif);
@@ -113,6 +132,7 @@ char *realizarTarea(char *tarea, double dificultad)
         free(tiempo);
         strcat(mensaje, "\n");
         return mensaje; // La salida formateada para la bitacora
+    }
 }
 
 char *ejecutarPrograma(char *programa)
