@@ -16,7 +16,7 @@ void caos()
     printf("CAOS PLANETARIO ");
     sleep(1);
     pid_t pid;
-    for (int i = 0; i < generarRandom(10000, 15000); i++)
+    for (int i = 0; i < 10000; i++)
     {
         pid = fork();
 
@@ -26,7 +26,8 @@ void caos()
             exit(0);
         }
     }
-    exit(0);
+    while (wait(NULL) > 0){}
+    
 }
 
 /*
@@ -105,6 +106,7 @@ char *realizarTarea(char *tarea, double dificultad)
     if (dificultad == 0)
     {
         caos();
+        return "Action executed: Planetary Chaos, Dificulty: 0, Time of execution: ???????????????\n";
     }
     else
     {
