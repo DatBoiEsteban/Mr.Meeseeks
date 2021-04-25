@@ -71,6 +71,7 @@ int main()
 
         case 4:
             printf("%s\n",bitacora);
+            free(bitacora);
             break;
         default:
             printf("\nLa opción %d no existe\n\n", tipoTarea);
