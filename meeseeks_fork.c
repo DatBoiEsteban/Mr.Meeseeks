@@ -22,6 +22,7 @@ void caos()
             exit(0);
         }
     }
+    exit(0);
 }
 
 void realizar(char *tarea, double dificultad, int nivel, int instancia, int fd, globales *globThis)
@@ -117,7 +118,8 @@ char *realizarTarea(char *tarea, double dificultad)
             }
             wait(NULL);
             tiempo_op = (double)(clock() - inicio_op) / CLOCKS_PER_SEC;
-            sprintf(tiempo, "%f.4", tiempo_op);
+            sprintf(tiempo, "%f", tiempo_op);
+            printf("Meeseek pid: %d, ppid: %d, n: %d, i: %d Ha completado la tarea en %fs\n", glob->pidMeeseekFinalizado, glob->ppidMeeseekFinalizado, glob->nMeeseekFinalizado, glob->iMeeseekFinalizado, tiempo);
             cerrarMemoria(&fd, glob);
         }
         strcat(mensaje, "Action executed: ");
@@ -156,7 +158,6 @@ char *ejecutarPrograma(char *programa)
             mes = "NO";
         }
         writeToPipe(fd, mes);
-        free(mes);
         exit(0);
     }
     else
@@ -181,10 +182,8 @@ char *ejecutarPrograma(char *programa)
         strcat(mensaje, programa);
         strcat(mensaje, ", Successful?: ");
         strcat(mensaje, recibido);
-        free(recibido);
         strcat(mensaje, ", Time of execution: ");
         strcat(mensaje, tiempo);
-        free(tiempo);
         strcat(mensaje, "\n");
         return mensaje; // La salida formateada para la bitacora
     }
@@ -204,7 +203,6 @@ char *hacerLaMate(char *exp)
         char *resulSTR = malloc(sizeof(char) * 30);
         sprintf(resulSTR, "%f", resultado);
         writeToPipe(fd, resulSTR); // Agregar el mensaje
-        free(resulSTR);
         exit(0);
     }
     else
@@ -229,10 +227,9 @@ char *hacerLaMate(char *exp)
         strcat(mensaje, exp);
         strcat(mensaje, ", Value: ");
         strcat(mensaje, recibido);
-        free(recibido);
         strcat(mensaje, ", Time of execution: ");
         strcat(mensaje, tiempo);
-        free(tiempo);
+
         strcat(mensaje, "\n");
         return mensaje; // La salida formateada para la bitacora
     }

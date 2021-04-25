@@ -1,15 +1,11 @@
 #include <stdio.h>
 #include <unistd.h>
-
-//#include "general.c"
-//#include "globales.c"
 #include "meeseeks_fork.c"
 
 int main()
 {
     int tipo = 0;
     int tipoTarea = 0;
-    char *tarea = "";
     double dificultad = 0;
     int Box = getpid();
     char *bitacora = malloc( 10000);
@@ -29,36 +25,33 @@ int main()
         {
         case 1:
         {
-            tarea = leerConsulta();
+            char *tarea = leerConsulta();
             dificultad = leerDificultad();
 
             if (tipo)
             {
                 char* res = realizarTarea(tarea, dificultad);
                 strcat(bitacora, res);
-                free(res);
             }
             else
             {
             }
 
-            free(tarea);
             break;
         }
 
         case 2:
         {
-            tarea = leerConsulta();
+            char *tarea = leerConsulta();
             if (tipo == 1)
             {
                 char *res = hacerLaMate(tarea);
                 strcat(bitacora, res);
-                free(res);
             }
             else
             {
             }
-            free(tarea);
+
             break;
         }
 
@@ -69,12 +62,10 @@ int main()
             {
                 char *res = ejecutarPrograma(programa);
                 strcat(bitacora, res);
-                free(res);
             }
             else
             {
             }
-            free(programa);
             break;
         }
 
